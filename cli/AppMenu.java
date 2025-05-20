@@ -2,7 +2,7 @@ package cli;
 
 import model.SearchManager;
 import model.SuggestManager;
-//import model.MyMenuManager;
+import model.MyMenuManager;
 import model.GroupManager;
 import util.DBUtil;
 import util.ConsoleStyle;
@@ -20,7 +20,7 @@ public class AppMenu {
     private final int userId;
     private final SearchManager searchManager;
     private final SuggestManager suggestManager;
-    //private final MyMenuManager myMenuManager;
+    private final MyMenuManager myMenuManager;
     private final GroupManager GroupManager;
 
     public AppMenu(int userId) {
@@ -28,7 +28,7 @@ public class AppMenu {
         this.scanner = new Scanner(System.in);
         this.searchManager = new SearchManager();
         this.suggestManager = new SuggestManager();
-        //this.myMenuManager = new MyMenuManager();
+        this.myMenuManager = new MyMenuManager();
         this.GroupManager = new GroupManager();
     }
 
@@ -70,10 +70,10 @@ public class AppMenu {
                     handleSuggest();
                     break;
                 case 3:
-                    // handleMyMenu();
+                     handleMyMenu();
                     break;
                 case 4:
-                    // handleGroup();
+                    handleGroup();
                     break;
                 case 0:
                 	System.out.println();
@@ -110,7 +110,9 @@ public class AppMenu {
             ResultSet groupRs = groupStmt.executeQuery();
 
             if (!groupRs.next() || groupRs.getObject("group_id") == null) {
-                System.out.println("그룹에 가입해보세요!");
+            	System.out.println();
+                System.out.println("그룹에 가입하고 친구들과 밥 가능 상태를 공유해보세요.");
+                System.out.println();
                 return;
             }
 
@@ -155,12 +157,14 @@ public class AppMenu {
     
     private void printMyAvailability() {
         try (Connection conn = DBUtil.getConnection()) {
-            String sql = "SELECT is_available FROM User WHERE user_id = ?";
+            String sql = "SELECT group_id, is_available FROM User WHERE user_id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, userId);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
+            	int groupId = rs.getInt("group_id");
+            	if (rs.wasNull()) return;
                 int available = rs.getInt("is_available");
                 String status = (available == 1) ? "🍽  지금 같이 밥 먹을 수 있어요 (ON)" : "🙅‍♀️ 지금은 힘들어요 (OFF)";
                 System.out.println("[내 상태] " + status);
@@ -184,7 +188,7 @@ public class AppMenu {
     	    System.out.printf ("│ %-65s │\n", "[4] 그룹👥");
     	    System.out.printf ("│ %-65s │\n", "[0] 종료🚪");
     	    System.out.println("└─────────────────────────────────────────────────────────────────────┘");
-    	    System.out.print("선택: ");
+    	    System.out.print("> ");
 
     	}
 
@@ -258,13 +262,90 @@ public class AppMenu {
     	System.out.println();
         suggestManager.suggestSelect(userId);
     }
-	//  private void handleMyMenu() {
-	//  myMenuManager.showFavorites(userId);
-	//}
-	//
-//	private void handleGroup() {
-//	  GroupManager.manageGroups(userId);
-//	}
+    
+    private void handleMyMenu() {
+    	String sql = """
+    		    SELECT
+    		        u.user_name, ug.group_name, u.is_available,
+    		        AVG(s.rating) AS avg_rating
+    		    FROM User u
+    		    LEFT JOIN User_group ug ON u.group_id = ug.group_id
+    		    LEFT JOIN Star s ON u.user_id = s.user_id
+    		    WHERE u.user_id = ?
+    		    GROUP BY u.user_id, u.user_name, ug.group_name, u.is_available
+    		""";
+
+    	
+    	String name = "";
+        String groupName = "";
+        boolean isAvailable = false;
+        double avgRating = 0.0;
+        try (
+                Connection conn = DBUtil.getConnection();
+                PreparedStatement pmtst = conn.prepareStatement(sql)
+            ) {
+        	pmtst.setInt(1, userId);
+        	
+                try (ResultSet rs = pmtst.executeQuery()) {
+                    if (rs.next()) {
+                        name        = rs.getString("user_name");
+                        groupName   = rs.getString("group_name");
+                        isAvailable = rs.getBoolean("is_available");
+                        avgRating   = rs.getDouble("avg_rating");
+                    } else {
+                        System.out.println("사용자 정보를 찾을 수 없습니다.");
+                        return;
+                    }
+                }
+            } catch (SQLException e) {
+                System.err.println("사용자 정보 조회 중 오류:");
+                e.printStackTrace();
+                return;
+            }
+        String availabilityText = isAvailable
+        		? ConsoleStyle.apply(ConsoleStyle.EWHA_GREEN, "가능")
+        				: ConsoleStyle.apply(ConsoleStyle.DARK_RED, "불가능");
+        groupName = (groupName == null) ? " 없음" : ": "+groupName;
+        while (true) {
+        	System.out.println();
+        	System.out.println();
+        	System.out.println();
+	        System.out.printf("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n"
+	    			+ "┃  %-25s  ┃\n"
+	    			+ "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n", name+"님의 MENU");
+	        System.out.println();
+	        System.out.println(" 👤 닉네임: "+name);
+	        System.out.println(" 👥 속해있는 그룹"+groupName);
+	        System.out.println(" 🍚 현재 밥 "+ availabilityText);
+	        System.out.println(" ⭐️ 내가 준 별점 평균: "+avgRating);
+	        System.out.println();
+		    System.out.println("┌─────────────────────────────────────────────────────────────────────┐");
+		    System.out.printf ("│ %-67s │\n", "");
+		    System.out.printf ("│ %-58s │\n", "[1] 즐겨찾기한 식당 보기");
+		    System.out.printf ("│ %-58s │\n", "[2] 밥 가능 여부 수정하기");
+		    System.out.printf ("│ %-58s │\n", "[3] 홈화면으로 돌아가기");
+		    System.out.printf ("│ %-67s │\n", "");
+		    System.out.println("└─────────────────────────────────────────────────────────────────────┘");
+		    System.out.print("> ");
+	        int menuChoice=scanner.nextInt();
+	       scanner.nextLine();
+	        
+	       if (menuChoice == 3) {
+	           System.out.println("홈화면으로 돌아갑니다.");
+	           return;
+	       }
+	
+	       switch (menuChoice) {
+	           case 1 -> myMenuManager.menuHandler(userId, 1);
+	           case 2 -> myMenuManager.menuHandler(userId, 2);
+	           default -> System.out.println("1~3 중에서 선택해주세요.");
+	       }
+	       System.out.println();
+       }
+    }
+	private void handleGroup() {
+	  GroupManager.manageGroup(userId);
+	}
     private void printBye() {
     	System.out.println(" __________________\n"
         		+ "/                    \\\n"

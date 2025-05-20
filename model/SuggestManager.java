@@ -21,7 +21,17 @@ public class SuggestManager {
         } else if (choice.equalsIgnoreCase("2")) {
             suggestMenu(scanner);
         } else {
-            System.out.println("잘못된 입력입니다.");
+        	System.out.println(" _____________________________\n"
+            		+ "/                             \\\n"
+            		+ "|      잘못된 입력입니다.     |\n"
+            		+ "\\                             /\n"
+            		+ " -----------------------------\n"
+            		+ "    \\   ^__^\n"
+            		+ "     \\  (oo)\\_______\n"
+            		+ "        (__)\\       )\\/\\\n"
+            		+ "            ||----w |\n"
+            		+ "            ||     ||");
+            System.out.println();
         }
     }
 
@@ -246,7 +256,7 @@ public class SuggestManager {
             if (!hasResult) {
                 System.out.println(" ____________________________________\n"
                         + "/                                    \\\n"
-                        + "|  해당 조건에 맞는 메뉴가 없습니다.  |\n"
+                        + "|  해당 조건에 맞는 메뉴가 없습니다. |\n"
                         + "\\                                    /\n"
                         + " ------------------------------------\n"
                         + "    \\   ^__^\n"
@@ -270,7 +280,7 @@ public class SuggestManager {
 
     private static void printTopTen() {
     	System.out.println();
-    	System.out.println(" _______________________________________________");
+    	System.out.println(" ______________________________________________");
         System.out.println("/\\                                             \\");
         System.out.println("\\_|          별점 높은 식당 Top 10             |");
         try (Connection conn = DBUtil.getConnection();

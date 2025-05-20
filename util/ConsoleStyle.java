@@ -16,6 +16,7 @@ public class ConsoleStyle {
     public static final String SKY_BLUE     = "\033[38;5;117m";
     public static final String EWHA_GREEN   = "\033[38;5;22m";
     public static final String LOGO_TEST    = "\033[38;5;24m";
+    public static final String DARK_RED    = "\033[38;5;124m";
     
     // 256색 배경 스타일 (background)
     public static final String BG_PURPLE    = "\033[48;5;7m";
