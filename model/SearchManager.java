@@ -99,18 +99,61 @@ public class SearchManager {
                         try {
                             int rating = Integer.parseInt(scanner.nextLine());
                             if (rating < 1 || rating > 5) {
-                                System.out.println("별점은 1에서 5 사이의 숫자여야 합니다.");
+                            	System.out.println(" __________________________________________\n"
+                                        + "/                                          \\\n"
+                                        + "|  별점은 1에서 5 사이의 숫자여야 합니다.  |\n"
+                                        + "\\                                          /\n"
+                                        + " ------------------------------------------\n"
+                                        + "    \\   ^__^\n"
+                                        + "     \\  (oo)\\_______\n"
+                                        + "        (__)\\       )\\/\\\n"
+                                        + "            ||----w |\n"
+                                        + "            ||     ||");
+                                System.out.println();
                                 break;
                             }
                             StarManager.addRating(userId, restId, rating);
+                            System.out.println(" ___________________________________\n"
+                                    + "/                                   \\\n"
+                                    + "|       별점이 등록되었습니다.      |\n"
+                                    + "\\                                   /\n"
+                                    + " -----------------------------------\n"
+                                    + "    \\   ^__^\n"
+                                    + "     \\  (oo)\\_______\n"
+                                    + "        (__)\\       )\\/\\\n"
+                                    + "            ||----w |\n"
+                                    + "            ||     ||");
+                            System.out.println();
                             System.out.println("별점이 등록되었습니다.");
                         } catch (NumberFormatException e) {
+                        	System.out.println(" ______________________________________________\n"
+                            		+ "/                                              \\\n"
+                            		+ "|          숫자 형식이 아닙니다.               |\n"
+                            		+ "|      별점은 1~5의 정수로 입력해야 합니다.    |\n"
+                            		+ "\\                                              /\n"
+                            		+ " ----------------------------------------------\n"
+                            		+ "    \\   ^__^\n"
+                            		+ "     \\  (oo)\\_______\n"
+                            		+ "        (__)\\       )\\/\\\n"
+                            		+ "            ||----w |\n"
+                            		+ "            ||     ||");
+                            System.out.println();
                             System.out.println("숫자 형식이 아닙니다. 별점은 정수로 입력해야 합니다.");
                         }
                         break;
                     case "2":
                         FavoriteManager.addFavorite(userId, restId);
-                        System.out.println("즐겨찾기에 추가되었습니다.");
+                        System.out.println(" ____________________________________\n"
+                                + "/                                    \\\n"
+                                + "|     즐겨찾기에 추가되었습니다.     |\n"
+                                + "\\                                    /\n"
+                                + " ------------------------------------\n"
+                                + "    \\   ^__^\n"
+                                + "     \\  (oo)\\_______\n"
+                                + "        (__)\\       )\\/\\\n"
+                                + "            ||----w |\n"
+                                + "            ||     ||");
+                        System.out.println();
                         break;
                     default:
                         break;
