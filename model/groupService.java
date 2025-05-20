@@ -5,7 +5,6 @@ import java.util.Scanner;
 import java.util.Random;
 import db.DBConnector;
 
-
 public class GroupService {
 
 	public static void main(String[] args) {
