@@ -1,11 +1,11 @@
 INSERT INTO User (user_name, password) VALUES ('dummyleader', 'dummyleader');         -- dummy leader
 
 -- User_group 테이블
-INSERT INTO User_group (group_name, invite_code, leader) VALUES ('group01', 8605, 1000);
-INSERT INTO User_group (group_name, invite_code, leader) VALUES ('group02', 6442, 1000);
-INSERT INTO User_group (group_name, invite_code, leader) VALUES ('group03', 4125, 1000);
-INSERT INTO User_group (group_name, invite_code, leader) VALUES ('group04', 1580, 1000); 
-INSERT INTO User_group (group_name, invite_code, leader) VALUES ('group05', 1036, 1000);
+INSERT INTO User_group (group_name, invite_code, leader) VALUES ('group01', 86086011, 1000);
+INSERT INTO User_group (group_name, invite_code, leader) VALUES ('group02', 64423434, 1000);
+INSERT INTO User_group (group_name, invite_code, leader) VALUES ('group03', 41252322, 1000);
+INSERT INTO User_group (group_name, invite_code, leader) VALUES ('group04', 15809797, 1000); 
+INSERT INTO User_group (group_name, invite_code, leader) VALUES ('group05', 10365101, 1000);
 
 -- -- User 테이블
 
@@ -41,61 +41,61 @@ UPDATE User_group SET leader = (SELECT user_id FROM User WHERE user_name = 'marg
 
 -- Restaurant 테이블
 
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('김밥천국', 'Korean', 7, '08:00:00', '22:00:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('신촌부추곱창', 'Korean', 3, '16:00:00', '01:00:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('본가 설렁탕', 'Korean', 1, '11:00:00', '21:00:00', '15:00:00', '17:00:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('한옥집', 'Korean', 1, '11:00:00', '22:00:00', '15:00:00', '17:00:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('삼청동 수제비', 'Korean', 5, '11:30:00', '20:30:00', '15:30:00', '17:00:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('백채김치찌개', 'Korean', 10, '11:00:00', '21:00:00', '15:00:00', '17:00:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('하남 돼지집', 'Korean', 9, '17:00:00', '01:00:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('명동교자', 'Korean', 3, '10:30:00', '21:30:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('김밥천국', 'Korean', 700, '08:00:00', '22:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('신촌부추곱창', 'Korean', 3000, '16:00:00', '01:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('본가 설렁탕', 'Korean', 1100, '11:00:00', '21:00:00', '15:00:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('한옥집', 'Korean', 1600, '11:00:00', '22:00:00', '15:00:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('삼청동 수제비', 'Korean', 5500, '11:30:00', '20:30:00', '15:30:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('백채김치찌개', 'Korean', 100, '11:00:00', '21:00:00', '15:00:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('하남 돼지집', 'Korean', 9100, '17:00:00', '01:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('명동교자', 'Korean', 9900, '10:30:00', '21:30:00', NULL, NULL, False);
 
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('연어초밥', 'Japanese', 10, '11:30:00', '21:30:00', '15:00:00', '17:00:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('세상끝의라멘', 'Japanese', 5, '11:00:00', '22:30:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('긴자료코', 'Japanese', 3, '11:30:00', '21:00:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('모미지식당', 'Japanese', 7, '11:00:00', '22:00:00', '15:00:00', '17:00:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('스시효', 'Japanese', 2, '12:00:00', '22:00:00', '15:00:00', '17:30:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('연어초밥', 'Japanese', 1000, '11:30:00', '21:30:00', '15:00:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('세상끝의라멘', 'Japanese', 5200, '11:00:00', '22:30:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('긴자료코', 'Japanese', 300, '11:30:00', '21:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('모미지식당', 'Japanese', 700, '11:00:00', '22:00:00', '15:00:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('스시효', 'Japanese', 2100, '12:00:00', '22:00:00', '15:00:00', '17:30:00', False);
 
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('홍반장 중화요리', 'Chinese', 4, '11:00:00', '21:30:00', '15:00:00', '17:00:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('홍콩반점0410', 'Chinese', 1, '11:00:00', '22:00:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('차이나팩토리', 'Chinese', 7, '11:30:00', '22:00:00', '15:00:00', '17:00:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('화라라 마라탕', 'Chinese', 2, '11:00:00', '23:00:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('라화쿵푸', 'Chinese', 3, '11:30:00', '21:30:00', '15:30:00', '17:00:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('명동 교동짬뽕', 'Chinese', 5, '11:00:00', '22:00:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('다래헌', 'Chinese', 9, '11:30:00', '21:00:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('홍보각', 'Chinese', 8, '11:00:00', '21:30:00', '15:00:00', '17:30:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('송쉐프 중식당', 'Chinese', 7, '11:00:00', '22:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('홍반장 중화요리', 'Chinese', 400, '11:00:00', '21:30:00', '15:00:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('홍콩반점0410', 'Chinese', 1600, '11:00:00', '22:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('차이나팩토리', 'Chinese', 700, '11:30:00', '22:00:00', '15:00:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('화라라 마라탕', 'Chinese', 200, '11:00:00', '23:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('라화쿵푸', 'Chinese', 300, '11:30:00', '21:30:00', '15:30:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('명동 교동짬뽕', 'Chinese', 2500, '11:00:00', '22:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('다래헌', 'Chinese', 900, '11:30:00', '21:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('홍보각', 'Chinese', 8100, '11:00:00', '21:30:00', '15:00:00', '17:30:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('송쉐프 중식당', 'Chinese', 700, '11:00:00', '22:00:00', NULL, NULL, False);
 
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('라그릴리아', 'Western', 3, '11:30:00', '22:00:00', '15:30:00', '17:00:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('빕스', 'Western', 5, '11:00:00', '22:00:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('브런치브라더스', 'Western', 7, '09:00:00', '17:00:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('마마스 샐러드 & 파니니', 'Western', 8, '10:30:00', '21:00:00', '15:30:00', '17:00:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('피자몰', 'Western', 2, '11:00:00', '21:30:00', '15:00:00', '17:00:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('서가앤쿡', 'Western', 2, '11:30:00', '22:00:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('롤링파스타', 'Western', 5, '11:00:00', '21:30:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('바스버거', 'Western', 9, '11:30:00', '22:00:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('라루즈', 'Western', 2, '12:00:00', '22:00:00', '15:00:00', '17:30:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('바닐라키친', 'Western', 5, '10:30:00', '21:30:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('쁘띠문래', 'Western', 8, '10:00:00', '20:00:00', '15:00:00', '16:30:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('라그릴리아', 'Western', 3100, '11:30:00', '22:00:00', '15:30:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('빕스', 'Western', 500, '11:00:00', '22:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('브런치브라더스', 'Western', 700, '09:00:00', '17:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('마마스 샐러드 & 파니니', 'Western', 8700, '10:30:00', '21:00:00', '15:30:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('피자몰', 'Western', 2900, '11:00:00', '21:30:00', '15:00:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('서가앤쿡', 'Western', 2700, '11:30:00', '22:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('롤링파스타', 'Western', 500, '11:00:00', '21:30:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('바스버거', 'Western', 9100, '11:30:00', '22:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('라루즈', 'Western', 2200, '12:00:00', '22:00:00', '15:00:00', '17:30:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('바닐라키친', 'Western', 5100, '10:30:00', '21:30:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('쁘띠문래', 'Western', 8500, '10:00:00', '20:00:00', '15:00:00', '16:30:00', False);
 
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('도레도레', 'Dessert', 10, '11:00:00', '21:00:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('투썸플레이스', 'Dessert', 7, '10:00:00', '22:00:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('설빙 이대점', 'Dessert', 9, '11:30:00', '22:30:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('리치몬드과자점', 'Dessert', 6, '09:00:00', '21:00:00', '14:30:00', '16:30:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('케이크드몽슈슈', 'Dessert', 10, '11:00:00', '21:30:00', '15:00:00', '17:00:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('앤티앤스', 'Dessert', 1, '10:00:00', '22:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('도레도레', 'Dessert', 10000, '11:00:00', '21:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('투썸플레이스', 'Dessert', 700, '10:00:00', '22:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('설빙 이대점', 'Dessert', 10, '11:30:00', '22:30:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('리치몬드과자점', 'Dessert', 600, '09:00:00', '21:00:00', '14:30:00', '16:30:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('케이크드몽슈슈', 'Dessert', 1600, '11:00:00', '21:30:00', '15:00:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('앤티앤스', 'Dessert', 3, '10:00:00', '22:00:00', NULL, NULL, False);
 
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('한남오거리 포케', 'Other', 2, '11:30:00', '21:00:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('할랄가이즈', 'Other', 1, '11:00:00', '21:00:00', '15:00:00', '17:00:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('두레국수', 'Other', 10, '11:00:00', '20:30:00', '15:00:00', '17:00:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('바오밥 바베큐', 'Other', 10, '11:30:00', '22:00:00', '15:30:00', '17:00:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('고래사냥 호프', 'Other', 1, '17:00:00', '02:00:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('리틀사이공', 'Other', 1, '11:00:00', '22:00:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('코지라운지', 'Other', 10, '18:00:00', '02:00:00', NULL, NULL, False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('온더보더', 'Other', 8, '11:30:00', '22:00:00', '15:30:00', '17:30:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('갓잇', 'Other', 7, '11:00:00', '21:30:00', '15:00:00', '17:00:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('낙원타코', 'Other', 3, '11:30:00', '22:00:00', '15:30:00', '17:00:00', False);
-INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('라운지베트남', 'Other', 6, '11:30:00', '21:30:00', '15:00:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('한남오거리 포케', 'Other', 12000, '11:30:00', '21:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('할랄가이즈', 'Other', 15000, '11:00:00', '21:00:00', '15:00:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('두레국수', 'Other', 1800, '11:00:00', '20:30:00', '15:00:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('바오밥 바베큐', 'Other', 1900, '11:30:00', '22:00:00', '15:30:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('고래사냥 호프', 'Other', 100, '17:00:00', '02:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('리틀사이공', 'Other', 1700, '11:00:00', '22:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('코지라운지', 'Other', 2000, '18:00:00', '02:00:00', NULL, NULL, False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('온더보더', 'Other', 8700, '11:30:00', '22:00:00', '15:30:00', '17:30:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('갓잇', 'Other', 7000, '11:00:00', '21:30:00', '15:00:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('낙원타코', 'Other', 3900, '11:30:00', '22:00:00', '15:30:00', '17:00:00', False);
+INSERT INTO Restaurant (rest_name, category, distance, open_time, close_time, break_start, break_end, has_vegan) VALUES ('라운지베트남', 'Other', 6100, '11:30:00', '21:30:00', '15:00:00', '17:00:00', False);
 
 
 -- Menu 테이블
