@@ -183,7 +183,7 @@ public class SuggestManager {
     	System.out.printf("┏━━━━━━━━━━━━━━━━━━┓\n"
     			+ "┃  %-10s  ┃\n"
     			+ "┗━━━━━━━━━━━━━━━━━━┛", "메뉴 추천");
-    
+    	printMenuRollupStats();
     	System.out.println();
     	System.out.println();
         System.out.print("메뉴 이름 키워드 (건너뛰려면 Enter): ");
@@ -279,23 +279,36 @@ public class SuggestManager {
     }
 
     private static void printTopTen() {
-    	System.out.println();
-    	System.out.println(" ______________________________________________");
+        System.out.println();
+        System.out.println(" ______________________________________________");
         System.out.println("/\\                                             \\");
         System.out.println("\\_|          별점 높은 식당 Top 10             |");
+
+        String sql = """
+            SELECT *
+			FROM (
+			    SELECT 
+			        r.rest_name,
+			        r.category,
+			        ROUND(AVG(s.rating), 2) AS avg_rating,
+			        RANK() OVER (
+			            ORDER BY AVG(s.rating) DESC, r.rest_id ASC
+			        ) AS rnk
+			    FROM Restaurant r
+			    JOIN Star s ON r.rest_id = s.rest_id
+			    GROUP BY r.rest_id, r.rest_name, r.category
+			) AS ranked
+			WHERE rnk <= 10
+			ORDER BY rnk;
+
+            """;
+
         try (Connection conn = DBUtil.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(
-                     "SELECT r.rest_id, r.rest_name, r.category, " +
-                     "ROUND(AVG(s.rating), 2) AS avg_rating " +
-                     "FROM Restaurant r " +
-                     "JOIN Star s ON r.rest_id = s.rest_id " +
-                     "GROUP BY r.rest_id, r.rest_name, r.category " +
-                     "ORDER BY avg_rating DESC " +
-                     "LIMIT 10");
+             PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
-            int rank = 1;
             while (rs.next()) {
+                int rank = rs.getInt("rnk");
                 String name = rs.getString("rest_name");
                 String category = rs.getString("category");
                 double rating = rs.getDouble("avg_rating");
@@ -303,9 +316,10 @@ public class SuggestManager {
                 String coloredCategory = ConsoleStyle.apply(ConsoleStyle.getCategoryColor(category), category);
                 String displayName = name + " " + coloredCategory;
                 String alignedDisplay = ConsoleStyle.padRightVisualWidth(displayName, 28);
-               
-                System.out.printf("  |  %2d. %s ⭐%5.2f  |\n", rank++, alignedDisplay, rating);
+
+                System.out.printf("  |  %2d. %s ⭐%5.2f  |\n", rank, alignedDisplay, rating);
             }
+
             System.out.println("  |                                            |");
             System.out.println("  |                                            |");
             System.out.println("  |   _________________________________________|_");
@@ -315,6 +329,56 @@ public class SuggestManager {
             System.out.println("추천 식당 조회 오류: " + e.getMessage());
         }
     }
+    
+    private static void printMenuRollupStats() {
+        String sql = """
+            SELECT
+                category,
+                SUM(CASE WHEN is_vegan = TRUE THEN 1 ELSE 0 END) AS vegan_count,
+                COUNT(*) AS total_count
+            FROM Menu
+            GROUP BY category WITH ROLLUP
+            """;
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            System.out.println();
+            System.out.println(" ______________________________________________");
+            System.out.println("/\\                                             \\");
+            System.out.println("\\_|        다음과 같은 데이터를 바탕으로       |");
+            System.out.println("  |                                            |");
+
+            while (rs.next()) {
+                String category = rs.getString("category");
+                int veganCount = rs.getInt("vegan_count");
+                int totalCount = rs.getInt("total_count");
+
+                if (category == null) {
+                    String line = String.format("총 %d개 (비건 %d개)", totalCount, veganCount);
+                    String padded = ConsoleStyle.padRightVisualWidth(line, 42);
+                    System.out.printf("  |  %s|\n", padded);
+                } else {
+                    String coloredCategory = ConsoleStyle.apply(ConsoleStyle.getCategoryColor(category), category);
+                    String left = String.format("%s %d개 (비건 %d개)", coloredCategory, totalCount, veganCount);
+                    String padded = ConsoleStyle.padRightVisualWidth(left, 42);
+                    System.out.printf("  |  %s|\n", padded);
+                }
+            }
+
+            System.out.println("  |                                            |");
+            System.out.println("  |       딱 맞는 메뉴를 찾아 드립니다...      |");
+            System.out.println("  |   _________________________________________|_");
+            System.out.println("   \\_/__________________________________________/");
+        } catch (SQLException e) {
+            System.out.println("메뉴 통계 조회 오류: " + e.getMessage());
+        }
+    }
+
+
+    
+
     
 
 }

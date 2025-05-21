@@ -18,6 +18,7 @@ public class FavoriteManager {
             pstmt.setInt(1, userId);
             pstmt.setInt(2, restId);
             pstmt.executeUpdate();
+            System.out.println("✅ 즐겨찾기에 추가되었습니다.");
 
         } catch (SQLException e) {
             // 중복된 즐겨찾기를 추가하려는 경우 예외 처리

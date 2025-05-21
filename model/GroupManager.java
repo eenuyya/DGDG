@@ -9,35 +9,72 @@ import util.DBUtil;
 public class GroupManager {
 
 	public static void manageGroup(int userId) {
-
-		System.out.println("밥친구를 찾아 즐거운 식사시간이 되시길 바래요! ");
-		System.out.println("어떤 메뉴를 실행할까요? ");
-		System.out.println("1. 그룹 만들기 ");
-		System.out.println("2. 그룹 참여하기 ");
-		System.out.println("3. 그룹 삭제하기 ");
-
 		Scanner sc = new Scanner (System.in);
-		int menu = sc.nextInt();
+		
+		// 해당 유저가 이미 그룹에 속해있는지 / 리더인지 확인한다. 
+				try(Connection conn = DBUtil.getConnection()){
+					String checkSql = "SELECT group_id, is_leader FROM user WHERE user_id = ?"; // 현재 사용자의 group_id를 가져오는 sql 쿼리 작성 
+					PreparedStatement checkStmt = conn.prepareStatement(checkSql); // 쿼리를 실행할 PreparedStatement 객체 생성 
+					checkStmt.setInt(1,  userId); // 해당쿼리의 ?에 userId 값을 넣음 
+					ResultSet checkRs = checkStmt.executeQuery(); // 쿼리 실행 -> 결과를 rs로 받아옴 
+					showGroup(userId);
 
-		switch(menu) {
-		case 1 :{
-			System.out.println("그룹 만들기 탭으로 이동합니다. ");
-			createGroup(userId);
-			break;
-		}
-		case 2 :{
-			System.out.println("그룹 참여하기 탭으로 이동합니다. ");
-			joinGroup(userId);
-			break;
-		}
-		case 3 : {
-			System.out.println("그룹 삭제하기 탭으로 이동합니다. ");
-			deleteGroup(userId);
-			break;
-		}
+					// 그룹에 속해있는 경우 중 리더가 아닐 때 
+					if(checkRs.next() && checkRs.getObject("group_id") != null && checkRs.getInt("is_leader") == 0) {
+						System.out.println("그룹에 속해있는 상태에선 새로운 그룹 생성 및 그룹 들어가기가 제한됩니다! ");
+					}
+					
+					// 그룹에 속해있는 경우 중 리더일 때
+					else if(checkRs.next() && checkRs.getObject("group_id") != null && checkRs.getInt("is_leader") == 0) {
+						System.out.println("당신은 그룹의 리더입니다. ");
+						System.out.println("만약 그룹을 삭제하고 싶다면, 'delete'를 작성해주세요. ");
+						System.out.println("그렇지 않다면 아무 키나 누르세요. ");
+						
+						String delete = sc.nextLine();
+						
+						if(delete == "delete") {
+							System.out.println("그룹 삭제하기 탭으로 이동합니다. ");
+							deleteGroup(userId);
+						}
+						else {
+							System.out.println("홈 화면으로 돌아갑니다. ");
+						}
+					}
+					// 아무 그룹에도 속해있지 않을 때 
+					else if (checkRs.next()){
+						System.out.println("어떤 메뉴를 실행할까요? ");
+						System.out.println("1. 그룹 만들기 ");
+						System.out.println("2. 그룹 참여하기 ");
+						
+						int menu = sc.nextInt();
+						
+						switch(menu) {
+							case 1 :{
+								System.out.println("그룹 만들기 탭으로 이동합니다. ");
+								createGroup(userId);
+								break;
+							}
+							case 2 :{
+								System.out.println("그룹 참여하기 탭으로 이동합니다. ");
+								joinGroup(userId);
+								break;
+							}
+							default : {
+								System.out.println("옳지 않은 입력입니다. ");
+								break;
+							}
+						}
+				
+					}
+				}
+				catch(SQLException e) {
+					e.printStackTrace();
+				}
+		
+		
 
 		}
-	}
+
 
 
 	// 그룹에 참여하기 
@@ -140,9 +177,30 @@ public class GroupManager {
 			}
 
 			// 2. 사용자에게 그룹 이름 입력 받기
-			Scanner sc = new Scanner (System.in);
-			System.out.println("그룹 이름을 입력하세요 : ");
-			String groupName = sc.nextLine ();
+			Scanner sc = new Scanner(System.in);
+			String groupName = null;
+
+			while (true) {
+			    System.out.print("그룹 이름을 입력하세요: ");
+			    groupName = sc.nextLine();
+
+			    // 그룹명 중복 체크 쿼리
+			    String checkGroupSql = "SELECT 1 FROM User_group WHERE group_name = ?";
+			    PreparedStatement checkGroupStmt = conn.prepareStatement(checkGroupSql);
+			    checkGroupStmt.setString(1, groupName);
+			    ResultSet checkRs = checkGroupStmt.executeQuery();
+
+			    if (checkRs.next()) {
+			        // 이미 존재하는 그룹명
+			        System.out.println("❌ 이미 존재하는 그룹 이름입니다. 다른 이름을 입력해주세요.\n");
+			    } else {
+			        // 중복 아님 → OK!
+			        break;
+			    }
+			}
+			
+			
+			
 
 			// 3. 초대코드 생성
 			int inviteCode = generateInviteCode(conn);
@@ -266,6 +324,50 @@ public class GroupManager {
 	    }
 
 	    return code;
+	}
+	public static void showGroup(int userId) {
+	    try (Connection conn = DBUtil.getConnection()) {
+	        int groupId = -1;
+
+	        // 1. 내 그룹 정보 확인하기
+	        String myInfoSql = "SELECT g.group_id, g.group_name, g.invite_code, u2.user_name AS leader_name "
+	                         + "FROM User u "
+	                         + "JOIN User_group g ON u.group_id = g.group_id "
+	                         + "JOIN User u2 ON u2.user_id = g.leader "
+	                         + "WHERE u.user_id = ?";
+	        PreparedStatement myInfoStmt = conn.prepareStatement(myInfoSql);
+	        myInfoStmt.setInt(1, userId);
+	        ResultSet myInfoRs = myInfoStmt.executeQuery();
+
+	        if (myInfoRs.next()) {
+	            System.out.println("현재 내가 속한 그룹 정보");
+	            System.out.println("그룹명 : " + myInfoRs.getInt("group_id"));
+	            groupId = myInfoRs.getInt("group_id");
+	            System.out.println("초대코드 : " + myInfoRs.getInt("invite_code"));
+	            System.out.println("그룹 리더 : " + myInfoRs.getString("leader_name"));
+	        } else {
+	            System.out.println("현재 속한 그룹이 없습니다.");
+	            return;
+	        }
+
+	        // 2. 내 그룹원들 확인하기 - User_view 사용
+	        String mateSql = "SELECT user_name, is_available "
+	                       + "FROM User_view "
+	                       + "WHERE group_id = (SELECT group_id FROM User WHERE user_id = ?)";
+	        PreparedStatement mateStmt = conn.prepareStatement(mateSql);
+	        mateStmt.setInt(1, userId);
+	        ResultSet mateRs = mateStmt.executeQuery();
+
+	        System.out.println("\n그룹 구성원:");
+	        while (mateRs.next()) {
+	            String name = mateRs.getString("user_name");
+	            int is_available = mateRs.getInt("is_available");
+	            String status = (is_available == 1) ? "OK" : "NO";
+	            System.out.println("- " + name + " 밥 " + status);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
 
 }

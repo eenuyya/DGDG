@@ -90,12 +90,8 @@ public class Login {
             String paddedMessage = ConsoleStyle.padRightVisualWidth(message, bubbleWidth);
 
             // 말풍선
-            System.out.println(" " + "_".repeat(bubbleWidth + 2));
-            System.out.println("/" + " ".repeat(bubbleWidth + 2) + "\\");
-            System.out.println("| " + paddedMessage + " |");
-            System.out.println("\\" + " ".repeat(bubbleWidth + 2) + "/");
-            System.out.println(" " + "-".repeat(bubbleWidth + 2));
-            
+            System.out.println();
+            System.out.println();
             System.out.println(" __________________________________________________\n"
             		+ "/                                                  \\\n"
             		+ "|   " + paddedMessage + "    |\n"

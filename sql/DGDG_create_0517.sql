@@ -1,3 +1,6 @@
+-- 0517 수정사항
+-- 카테고리명 한국어로 변경
+
 -- ----------------------------
 -- 사용자 그룹 테이블
 -- ----------------------------
@@ -21,13 +24,24 @@ CREATE TABLE `User` (
   FOREIGN KEY (`group_id`) REFERENCES `User_group`(`group_id`)
 ) AUTO_INCREMENT = 1000;
 
+
+CREATE VIEW User_view AS
+SELECT
+  user_id,
+  user_name,
+  group_id,
+  is_available,
+  is_leader
+FROM User;
+
+
 -- ----------------------------
 -- 식당 테이블
 -- ----------------------------
 CREATE TABLE `Restaurant` (
   `rest_id` INT PRIMARY KEY AUTO_INCREMENT,
   `rest_name` VARCHAR(255) NOT NULL,
-  `category` ENUM('Korean', 'Chinese', 'Western', 'Japanese', 'Dessert', 'Other') NOT NULL,
+  `category` ENUM('한식', '일식', '중식', '양식', '디저트', '기타') NOT NULL,
   `distance` INT,
   `open_time` TIME,
   `close_time` TIME,
@@ -44,7 +58,7 @@ CREATE TABLE `Menu` (
   `rest_id` INT NOT NULL,
   `menu_name` VARCHAR(255) NOT NULL,
   `price` INT NOT NULL,
-  `category` ENUM('Korean', 'Chinese', 'Western', 'Japanese', 'Dessert', 'Other') NOT NULL,
+  `category` ENUM('한식', '일식', '중식', '양식', '디저트', '기타') NOT NULL,
   `is_vegan` BOOLEAN DEFAULT FALSE,
   `is_soup` BOOLEAN DEFAULT FALSE,
   `spicy` INT DEFAULT 0 CHECK (spicy BETWEEN 0 AND 5),
@@ -89,4 +103,9 @@ CREATE INDEX idx_star_rating ON Star(rating);
 -- 식당 이름 컬럼 인덱스 추가
 -- ----------------------------
 CREATE INDEX idx_restaurant_name ON Restaurant(rest_name);
+
+-- ----------------------------
+-- 사용자 이름 컬럼 인덱스 추가
+-- ----------------------------
+CREATE INDEX idx_user_name ON User(user_name);
 
