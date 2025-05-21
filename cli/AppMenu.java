@@ -103,14 +103,14 @@ public class AppMenu {
  
     private void showAvailableGroupmatesBox(int userId) {
         try (Connection conn = DBUtil.getConnection()) {
-            // 1. 그룹 ID 확인
-            String groupSql = "SELECT group_id FROM User WHERE user_id = ?";
+            // 1. 나의 그룹 ID 확인 (User_view 사용)
+            String groupSql = "SELECT group_id FROM User_view WHERE user_id = ?";
             PreparedStatement groupStmt = conn.prepareStatement(groupSql);
             groupStmt.setInt(1, userId);
             ResultSet groupRs = groupStmt.executeQuery();
 
             if (!groupRs.next() || groupRs.getObject("group_id") == null) {
-            	System.out.println();
+                System.out.println();
                 System.out.println("그룹에 가입하고 친구들과 밥 가능 상태를 공유해보세요.");
                 System.out.println();
                 return;
@@ -118,8 +118,8 @@ public class AppMenu {
 
             int groupId = groupRs.getInt("group_id");
 
-            // 2. 가능한 그룹원 조회 (최대 6명)
-            String mateSql = "SELECT user_id, user_name FROM User WHERE group_id = ? AND is_available = 1";
+            // 2. 같은 그룹에서 is_available=1인 사람 조회 (최대 6명)
+            String mateSql = "SELECT user_id, user_name FROM User_view WHERE group_id = ? AND is_available = 1";
             PreparedStatement mateStmt = conn.prepareStatement(mateSql);
             mateStmt.setInt(1, groupId);
             ResultSet mateRs = mateStmt.executeQuery();
@@ -129,22 +129,18 @@ public class AppMenu {
             int idx = 0;
             while (mateRs.next() && idx < 6) {
                 String name = mateRs.getString("user_name");
-                String id = mateRs.getString("user_id");
+                int id = mateRs.getInt("user_id");
 
-                if (id.equals(String.valueOf(userId))) name += " (me)";
-
-                members[idx] = name;
-                idx++;
+                if (id == userId) name += " (me)";
+                members[idx++] = name;
             }
 
-            
             // 박스 출력
             System.out.println();
             System.out.println("╔════ 지금 같이 밥 먹을 수 있는 친구 목록🟢 ═════════════════════════╗");
-            System.out.printf("║ %-66s ║\n","");
+            System.out.printf("║ %-66s ║\n", "");
             for (int i = 0; i < 6; i++) {
                 String content = (members[i] != null) ? " " + members[i] : "";
-                // 40칸 맞춰서 공백 패딩
                 System.out.printf("║ %-66s ║\n", content);
             }
             System.out.println("╚════════════════════════════════════════════════════════════════════╝");
@@ -153,6 +149,7 @@ public class AppMenu {
             e.printStackTrace();
         }
     }
+
 
     
     private void printMyAvailability() {

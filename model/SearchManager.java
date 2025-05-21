@@ -22,6 +22,7 @@ public class SearchManager {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
+        boolean found = false;
 
         try {
             conn = DBUtil.getConnection();
@@ -37,7 +38,10 @@ public class SearchManager {
             rs = pstmt.executeQuery();
 
             SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-            if (rs.next()) {
+
+            while (rs.next()) {
+                found = true;
+
                 int restId = rs.getInt("rest_id");
                 String name = rs.getString("rest_name");
                 String category = rs.getString("category");
@@ -58,7 +62,6 @@ public class SearchManager {
                 String coloredCategory = ConsoleStyle.apply(ConsoleStyle.getCategoryColor(category), category);
                 String displayName = String.format("%s %s   ⭐ %.2f", name, coloredCategory, avgRating);
                 System.out.println(displayName);
-
                 System.out.println("     영업시간 : " + timeFormat.format(openTime) + " ~ " + timeFormat.format(closeTime));
                 if (breakStart != null && breakEnd != null) {
                     System.out.println("     브레이크타임: " + timeFormat.format(breakStart) + " ~ " + timeFormat.format(breakEnd));
@@ -67,7 +70,6 @@ public class SearchManager {
                 System.out.println("     정문에서 " + distance + "m");
                 if (hasVegan) System.out.println("     비건 옵션 \u001B[32m있음\u001B[0m");
                 else System.out.println("     비건 옵션 없음");
-
 
                 // 메뉴 출력
                 List<String> menuList = new ArrayList<>();
@@ -85,102 +87,67 @@ public class SearchManager {
                 System.out.println("     메뉴: " + String.join(", ", menuList));
                 System.out.println();
 
+                // 사용자 입력 반복
+                while (true) {
+                	System.out.println();
+                    System.out.println("----------------------------------------------------------");
+                    System.out.println("[1] 별점 등록하기");
+                    System.out.println("[2] 즐겨찾기로 등록하기");
+                    System.out.println("[3] 홈화면으로 돌아가기");
+                    System.out.print("번호를 선택해주세요: ");
+                    String choice = scanner.nextLine().trim();
 
-                System.out.println("----------------------------------------------------------");
-                System.out.println("[1] 별점 등록하기");
-                System.out.println("[2] 즐겨찾기로 등록하기");
-                System.out.println("[3] 홈화면으로 돌아가기");
-                System.out.print("번호를 선택해주세요: ");
-                String choice = scanner.nextLine().trim();
-
-                switch (choice) {
-                    case "1":
-                        System.out.print("1~5 사이의 별점을 입력해주세요: ");
-                        try {
-                            int rating = Integer.parseInt(scanner.nextLine());
-                            if (rating < 1 || rating > 5) {
-                            	System.out.println(" __________________________________________\n"
-                                        + "/                                          \\\n"
-                                        + "|  별점은 1에서 5 사이의 숫자여야 합니다.  |\n"
-                                        + "\\                                          /\n"
-                                        + " ------------------------------------------\n"
-                                        + "    \\   ^__^\n"
-                                        + "     \\  (oo)\\_______\n"
-                                        + "        (__)\\       )\\/\\\n"
-                                        + "            ||----w |\n"
-                                        + "            ||     ||");
-                                System.out.println();
-                                break;
+                    switch (choice) {
+                        case "1":
+                            System.out.print("1~5 사이의 별점을 입력해주세요: ");
+                            try {
+                                int rating = Integer.parseInt(scanner.nextLine());
+                                if (rating < 1 || rating > 5) {
+                                    System.out.println("⚠️  별점은 1~5 사이만 가능합니다.");
+                                    Thread.sleep(1000);
+                                    break;
+                                }
+                                StarManager.addRating(userId, restId, rating);
+                                System.out.println("⭐ 별점이 등록되었습니다.");
+                                Thread.sleep(1000);
+                            } catch (NumberFormatException e) {
+                                System.out.println("⚠️  숫자 형식이 아닙니다. 정수로 입력해주세요.");
+                                Thread.sleep(1000);
                             }
-                            StarManager.addRating(userId, restId, rating);
-                            System.out.println(" ___________________________________\n"
-                                    + "/                                   \\\n"
-                                    + "|       별점이 등록되었습니다.      |\n"
-                                    + "\\                                   /\n"
-                                    + " -----------------------------------\n"
-                                    + "    \\   ^__^\n"
-                                    + "     \\  (oo)\\_______\n"
-                                    + "        (__)\\       )\\/\\\n"
-                                    + "            ||----w |\n"
-                                    + "            ||     ||");
-                            System.out.println();
-                            System.out.println("별점이 등록되었습니다.");
-                        } catch (NumberFormatException e) {
-                        	System.out.println(" ______________________________________________\n"
-                            		+ "/                                              \\\n"
-                            		+ "|          숫자 형식이 아닙니다.               |\n"
-                            		+ "|      별점은 1~5의 정수로 입력해야 합니다.    |\n"
-                            		+ "\\                                              /\n"
-                            		+ " ----------------------------------------------\n"
-                            		+ "    \\   ^__^\n"
-                            		+ "     \\  (oo)\\_______\n"
-                            		+ "        (__)\\       )\\/\\\n"
-                            		+ "            ||----w |\n"
-                            		+ "            ||     ||");
-                            System.out.println();
-                            System.out.println("숫자 형식이 아닙니다. 별점은 정수로 입력해야 합니다.");
-                        }
-                        break;
-                    case "2":
-                        FavoriteManager.addFavorite(userId, restId);
-                        System.out.println(" ____________________________________\n"
-                                + "/                                    \\\n"
-                                + "|     즐겨찾기에 추가되었습니다.     |\n"
-                                + "\\                                    /\n"
-                                + " ------------------------------------\n"
-                                + "    \\   ^__^\n"
-                                + "     \\  (oo)\\_______\n"
-                                + "        (__)\\       )\\/\\\n"
-                                + "            ||----w |\n"
-                                + "            ||     ||");
-                        System.out.println();
-                        break;
-                    default:
-                        break;
+                            break;
+                        case "2":
+                            FavoriteManager.addFavorite(userId, restId);
+                            Thread.sleep(1000);
+                            break;
+                        case "3":
+                            return;
+                        default:
+                            System.out.println("⚠️  잘못된 입력입니다.");
+                    }
                 }
-            } else {
+            }
+
+            if (!found) {
                 System.out.println(" _____________________________\n"
-                		+ "/                             \\\n"
-                		+ "|  일치하는 식당이 없습니다.  |\n"
-                		+ "\\                             /\n"
-                		+ " -----------------------------\n"
-                		+ "    \\   ^__^\n"
-                		+ "     \\  (oo)\\_______\n"
-                		+ "        (__)\\       )\\/\\\n"
-                		+ "            ||----w |\n"
-                		+ "            ||     ||");
-                System.out.println();
-                try {
-                    Thread.sleep(1500);  // 1초(1000 밀리초) 일시 정지
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();  // 인터럽트 상태 복원
-                }
+                        + "/                             \\\n"
+                        + "|  일치하는 식당이 없습니다.  |\n"
+                        + "\\                             /\n"
+                        + " -----------------------------\n"
+                        + "    \\   ^__^\n"
+                        + "     \\  (oo)\\_______\n"
+                        + "        (__)\\       )\\/\\\n"
+                        + "            ||----w |\n"
+                        + "            ||     ||");
+                Thread.sleep(1500);
             }
 
         } catch (SQLException e) {
             System.out.println("검색 중 오류 발생: " + e.getMessage());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         } finally {
             DBUtil.close(conn, pstmt, rs);
         }
     }
+
 }

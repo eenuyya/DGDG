@@ -21,9 +21,7 @@ public class StarManager {
 
             int rowsAffected = pstmt.executeUpdate();
 
-            if (rowsAffected > 0) {
-                System.out.println("별점이 성공적으로 저장되었습니다.");
-            } else {
+            if (rowsAffected == 0) {
                 System.out.println("별점 저장에 실패했습니다.");
             }
 

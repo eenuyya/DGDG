@@ -111,7 +111,7 @@ public class MyMenuManager {
 			 
 			
 			System.out.println();
-			System.out.println("현재 밥 "+currentText+" 상태입니다.\n 바꾸시겠습니까? (y/n)");
+			System.out.println("현재 밥 "+currentText+" 상태입니다. 바꾸시겠습니까? (y/n)");
 			System.out.print("> ");
 			String onoffChoice = sc.nextLine().trim().toUpperCase();
 			
@@ -130,8 +130,8 @@ public class MyMenuManager {
 					String newText = newStatus
 			        		? ConsoleStyle.apply(ConsoleStyle.EWHA_GREEN, "가능")
 			        				: ConsoleStyle.apply(ConsoleStyle.DARK_RED, "불가능");
-					
-					System.out.println(currentText+"에서 "+newText+"로 변경되었습니다.");
+					System.out.println();
+					System.out.println(currentText+"에서 "+newText+"으로 변경되었습니다.");
 				}
 				catch (SQLException e) {
 					 System.err.println("상태 변경 중 오류 발생:");
