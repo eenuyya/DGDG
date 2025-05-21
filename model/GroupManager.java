@@ -17,55 +17,57 @@ public class GroupManager {
 					PreparedStatement checkStmt = conn.prepareStatement(checkSql); // 쿼리를 실행할 PreparedStatement 객체 생성 
 					checkStmt.setInt(1,  userId); // 해당쿼리의 ?에 userId 값을 넣음 
 					ResultSet checkRs = checkStmt.executeQuery(); // 쿼리 실행 -> 결과를 rs로 받아옴 
-					showGroup(userId);
-
-					// 그룹에 속해있는 경우 중 리더가 아닐 때 
-					if(checkRs.next() && checkRs.getObject("group_id") != null && checkRs.getInt("is_leader") == 0) {
-						System.out.println("그룹에 속해있는 상태에선 새로운 그룹 생성 및 그룹 들어가기가 제한됩니다! ");
-					}
 					
-					// 그룹에 속해있는 경우 중 리더일 때
-					else if(checkRs.next() && checkRs.getObject("group_id") != null && checkRs.getInt("is_leader") == 0) {
-						System.out.println("당신은 그룹의 리더입니다. ");
-						System.out.println("만약 그룹을 삭제하고 싶다면, 'delete'를 작성해주세요. ");
-						System.out.println("그렇지 않다면 아무 키나 누르세요. ");
-						
-						String delete = sc.nextLine();
-						
-						if(delete == "delete") {
-							System.out.println("그룹 삭제하기 탭으로 이동합니다. ");
-							deleteGroup(userId);
-						}
+					
+					if (checkRs.next()) {
+						int isLeader = checkRs.getInt("is_leader");
+						Object groupId = checkRs.getObject("group_id");
+
+						if (groupId != null && isLeader == 0) {
+							showGroup(userId);
+							System.out.println("그룹에 속해있는 상태에선 새로운 그룹 생성 및 그룹 들어가기가 제한됩니다!");
+						} 
+						else if (groupId != null && isLeader == 1) {
+							showGroup(userId);
+							System.out.println("당신은 그룹의 리더입니다.");
+							System.out.println("만약 그룹을 삭제하고 싶다면, 'delete'를 작성해주세요.");
+							System.out.println("그렇지 않다면 아무 키나 누르세요.");
+
+							String delete = sc.nextLine();
+
+							if (delete.equals("delete")) {
+								System.out.println("그룹 삭제하기 탭으로 이동합니다.");
+								deleteGroup(userId);
+							} else {
+								System.out.println("홈 화면으로 돌아갑니다.");
+							}
+						} 
 						else {
-							System.out.println("홈 화면으로 돌아갑니다. ");
-						}
-					}
-					// 아무 그룹에도 속해있지 않을 때 
-					else if (checkRs.next()){
-						System.out.println("어떤 메뉴를 실행할까요? ");
-						System.out.println("1. 그룹 만들기 ");
-						System.out.println("2. 그룹 참여하기 ");
-						
-						int menu = sc.nextInt();
-						
-						switch(menu) {
-							case 1 :{
-								System.out.println("그룹 만들기 탭으로 이동합니다. ");
-								createGroup(userId);
-								break;
-							}
-							case 2 :{
-								System.out.println("그룹 참여하기 탭으로 이동합니다. ");
-								joinGroup(userId);
-								break;
-							}
-							default : {
-								System.out.println("옳지 않은 입력입니다. ");
-								break;
+							System.out.println("어떤 메뉴를 실행할까요?");
+							System.out.println("1. 그룹 만들기");
+							System.out.println("2. 그룹 참여하기");
+
+							int menu = sc.nextInt();
+
+							switch (menu) {
+								case 1:
+									System.out.println("그룹 만들기 탭으로 이동합니다.");
+									createGroup(userId);
+									break;
+								case 2:
+									System.out.println("그룹 참여하기 탭으로 이동합니다.");
+									joinGroup(userId);
+									break;
+								default:
+									System.out.println("옳지 않은 입력입니다.");
+									break;
 							}
 						}
-				
+					} else {
+						// 사용자의 정보 자체가 없다면?
+						System.out.println("사용자 정보가 없습니다.");
 					}
+
 				}
 				catch(SQLException e) {
 					e.printStackTrace();
