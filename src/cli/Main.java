@@ -1,3 +1,5 @@
+package cli;
+
 import cli.AppMenu;
 import util.Login;
 import java.util.Scanner;
