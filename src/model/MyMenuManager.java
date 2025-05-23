@@ -87,7 +87,7 @@ public class MyMenuManager {
 	
 	       switch (menuChoice) {
 	           case 1 -> showFavorites(userId, username);
-	           case 2 -> changeAvailibility(userId);
+	           case 2 -> changeAvailability(userId);
 	           default -> System.out.println("1~3 중에서 선택해주세요.");
 	       }
 	       System.out.println();
@@ -143,7 +143,7 @@ public class MyMenuManager {
 		}
 		
 		// 2를 눌렀을 때 밥가능 여부 수정할 수 있게 하기
-		private static void changeAvailibility(int userId) { //밥가능 여부 수정하기
+		private static void changeAvailability(int userId) { //밥가능 여부 수정하기
 			 boolean currentStatus = false;
 			 String selectSql = "SELECT is_available FROM `User` WHERE user_id = ?";
 			 
