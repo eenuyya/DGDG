@@ -343,7 +343,7 @@ public class GroupManager {
 
 	        if (myInfoRs.next()) {
 	            System.out.println("현재 내가 속한 그룹 정보");
-	            System.out.println("그룹명 : " + myInfoRs.getInt("group_id"));
+	            System.out.println("그룹명 : " + myInfoRs.getString("group_name"));
 	            groupId = myInfoRs.getInt("group_id");
 	            System.out.println("초대코드 : " + myInfoRs.getInt("invite_code"));
 	            System.out.println("그룹 리더 : " + myInfoRs.getString("leader_name"));
