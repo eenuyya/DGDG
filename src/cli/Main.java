@@ -32,27 +32,40 @@ public class Main {
 	    System.out.println("└─────────────────────────────────────────────────────────────────────┘");
 	    System.out.print("> ");
        
-        int choice = Integer.parseInt(sc.nextLine());
-        int userId = -1;
-
-        if (choice == 1) {
-            Login.signup(sc);
-        }
-        if (choice != 1 && choice != 2) {
-        	System.out.println(" _____________________________\n"
-            		+ "/                             \\\n"
-            		+ "|         잘못된 선택         |\n"
-            		+ "|    프로그램을 종료합니다.   |\n"
-            		+ "\\                             /\n"
-            		+ " -----------------------------\n"
-            		+ "    \\   ^__^\n"
-            		+ "     \\  (oo)\\_______\n"
-            		+ "        (__)\\       )\\/\\\n"
-            		+ "            ||----w |\n"
-            		+ "            ||     ||");
-            return;
-        }
+	    try {
+	        int choice = Integer.parseInt(sc.nextLine());
+	        if (choice == 1) {
+	            Login.signup(sc);
+	        }
+	        if (choice != 1 && choice != 2) {
+	        	System.out.println(" _____________________________\n"
+	            		+ "/                             \\\n"
+	            		+ "|         잘못된 선택         |\n"
+	            		+ "|    프로그램을 종료합니다.   |\n"
+	            		+ "\\                             /\n"
+	            		+ " -----------------------------\n"
+	            		+ "    \\   ^__^\n"
+	            		+ "     \\  (oo)\\_______\n"
+	            		+ "        (__)\\       )\\/\\\n"
+	            		+ "            ||----w |\n"
+	            		+ "            ||     ||");
+	            return;
+	        }} catch (NumberFormatException e) {
+	        System.out.println(" _____________________________\n"
+		            + "/                             \\\n"
+		            + "|    숫자를 입력해주세요.     |\n"
+		            + "|    프로그램을 종료합니다.   |\n"
+		            + "\\                             /\n"
+		            + " -----------------------------\n"
+		            + "    \\   ^__^\n"
+		            + "     \\  (oo)\\_______\n"
+		            + "        (__)\\       )\\/\\\n"
+		            + "            ||----w |\n"
+		            + "            ||     ||");
+		        return;
+		    }
         // 로그인 반복 시도
+	    int userId = -1;
         int count = 0;
         while (userId == -1 && count++ < 3) {
             userId = Login.login(sc);
@@ -100,7 +113,3 @@ public class Main {
 	    }
 	}
 }
-
-// 홈화면에서 안녕하세요 {user_name}님! 하려면 login 할때 userName까지
-// 매개변수로 입력받아야 하고, 그러려면 User 객체를 생성해야함.
-// 로그인 먼저 구현되고 나서 할 것
