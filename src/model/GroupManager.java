@@ -28,6 +28,11 @@ public class GroupManager {
 						if (groupId != null && !isLeader) {
 							showGroup(userId, isLeader);
 							System.out.println("그룹에 속해있는 상태에선 새로운 그룹 생성 및 그룹 들어가기가 제한됩니다!");
+							try {
+			                    Thread.sleep(1500);  // 1.5초 대기
+			                } catch (InterruptedException e) {
+			                    Thread.currentThread().interrupt();
+			                }
 						} 
 						else if (groupId != null && isLeader) {
 							showGroup(userId, isLeader);
