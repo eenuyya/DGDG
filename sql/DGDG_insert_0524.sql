@@ -1,7 +1,3 @@
--- 0517 수정 사항
--- Star 튜플 양 3배로 늘림
--- Favorites 튜플 양 3배로 늘림
-
 
 INSERT INTO User (user_name, password) VALUES ('dummyleader', 'dummyleader');         -- dummy leader
 
